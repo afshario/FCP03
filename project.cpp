@@ -4,41 +4,41 @@ int main() {
       initial();
       bool a = true;
       while(a){
-            int request;
+            string request;
             cout << "---------------------------------" << '\n';
             cout << "| 1 - Create a student" << "\n";
             cout << "| 2 - Show students with limits" << "\n";
             cout << "| 3 - Show all students" << "\n";
             cout << "| 4 - Write students in database" << "\n";
             cout << "| 5 - Print student's report card" << "\n";
-            cout << "| 6 - Exit" << "\n" << "---------------------------------" << "\n";
-            cout <<">>> " <<"Enter your function you need: ";
+            cout << "| 6 - Delete a student" << "\n" ;
+            cout << "| 7 - Exit" << '\n' << "---------------------------------" << "\n";
+            cout <<">>> " <<"Enter a function you need: ";
             cin >> request;
-            switch (request){
 
-            case 1:
+            if(request == "1")
                   students.push_back(generateStudent());
-                  break;
-            
-            case 2:
+            else if(request == "2"){
                   bubbleSort();
                   showStudent();
-                  break;
-            case 3:
+            }
+            else if(request == "3"){
                   bubbleSort();
                   showStudentAll();
-                  break;
-            case 4:
+            }
+            else if(request == "4")
                   writeStudent();
-                  break;
-            case 5:
+            else if(request == "5")
                   karnameh();
-                  break;
-            case 6:
+            else if(request == "6")
+                  deleteStudent();
+            else if(request == "7")
+                  editStudent();
+            else if(request == "8")
                   a = false;
-            default:
+            else
                   system ("cls");
-            }            
+                      
       }
     return 0;
 }
@@ -71,39 +71,34 @@ Student generateStudent(){
       return (Student{name , id , fstudy , lessons });
 }
 void showStudent(){
-      vector<string> b;
-      int n;
-      cout << "| How many limits :" << '\n'<< "| ";
-      cin >> n;
-      for (int i = 0 ; i < n ; i++){
-            cout << "| Enter reshteh :";
-            string a;
-            cin >> a;
-            b.push_back(a);
+      
+      cout << "| Enter reshteh :";
+      string a;
+      int flag{0};
+      cin >> a;
+      for (int j = students.size()-1 ; j >= 0 ; j--){
+            Student i = students[j];
+            if (i.fstud == a){
+                  flag = 1;
+                  cout << "----------------------------------" << endl;
+                  cout << "| Name :" << i.name << endl<< "| ";
+                  cout << " ID :" << i.id << endl<< "| ";
+                  cout << " field of study :" << i.fstud << endl<< "| ";
+                  cout <<" GPA :" << i.gpaCal() << endl<< "| ";
+            } else {
+                  flag = false;
+            }
       }
-      for(int k =0 ; k<=n ;k++){
-            for (int j = students.size()-1 ; j >= 0 ; j--){
-                  Student i = students[j];
-                  if (i.fstud == b[k]){
-                        cout << "----------------------------------" << endl;
-                        cout << "| Name :" << i.name << endl<< "| ";
-                        cout << "| ID :" << i.id << endl<< "| ";
-                        cout << "| field of study :" << i.fstud << endl<< "| ";
-                        cout <<"| GPA :" << i.gpaCal() << endl<< "| ";
-                        cout << "----------------------------------" << endl;
-                  }
-      }
-      }
+      
 };
 void showStudentAll(){
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
                         cout << "----------------------------------" << endl;
                         cout << "| Name :" << i.name << endl<< "| ";
-                        cout << "| ID :" << i.id << endl<< "| ";
-                        cout << "| field of study :" << i.fstud << endl<< "| ";
-                        cout <<"| GPA :" << i.gpaCal() << endl<< "| ";
-                        cout << "----------------------------------" << endl;
+                        cout << " ID :" << i.id << endl<< "| ";
+                        cout << " field of study :" << i.fstud << endl<< "| ";
+                        cout <<" GPA :" << i.gpaCal() << endl<< "| ";
             }
 }
 int writeStudent(){
@@ -132,7 +127,7 @@ int writeStudent(){
       }
       file << newj;
       file.close();
-                  
+      cout << "| students are written sucessfully" << '\n';
       return 0;
 }
 void bubbleSort() {
@@ -150,21 +145,27 @@ void karnameh(){
       cin >> name;
       cout << "| Enter student's ID :";
       cin >> id;
+      bool flag = false;
       for (Student i : students){
             if ((i.name == name) && (i.id == id)){
+                  flag = true;
                   cout << "| Name :" << i.name << endl<< "| ";
                   cout << "| ID :" << i.id << endl<< "| ";
                   cout << "| Field of study :" << i.fstud << endl<< "| ";
                   cout << "| GPA :"<< i.gpaCal()<< endl<< "| ";
                   for(lesson l : i.lessons){
+                        cout << "------ Lessons of " << i.name << "------:" << '\n';
                         cout << "| Name of lesson :" << l.name << endl<< "| ";
                         cout << "| Vahed :" << l.vahed << endl<< "| ";
                         cout << "| Student's point :" << l.point << endl<< "| ";
+                        cout << "------------------------------" << '\n';
                   }
                   break;
             }
       }
-
+      if (!flag){
+            cout << "| Student dosen't exists!" << '\n';
+      }
 }
 void initial(){
       system("cls");
@@ -177,7 +178,7 @@ void initial(){
                   for (int j=0 ; j < jsonData[i]["lessons"].size(); j++){
                         string name = jsonData[i]["lessons"][j]["name"];
                         int vahed = jsonData[i]["lessons"][j]["vahed"];
-                        int point = jsonData[i]["lessons"][j]["point"];
+                        float point = jsonData[i]["lessons"][j]["point"];
                         lesson a{name ,vahed, point};
                         lessons.push_back(a);
                   }
@@ -189,4 +190,95 @@ void initial(){
             }
       }
       file.close();
+}
+void deleteStudent(){
+      string a;
+      cout << "| Enter student's ID: ";
+      cin >> a;
+      bool flag = false;
+      for (int i =0 ; i <= students.size() ; i++){
+            if(students[i].id == a){
+                  flag = true;
+                  students.erase(students.begin() + i);
+                  cout << "| Student deleted sucessfully "<< '\n';
+                  break;   
+            }
+      }
+      if(!flag){
+            cout << "| Student dosen't exist! "<< '\n';
+      }
+}
+void editStudent(){
+      cout << "| Enter student ID: ";
+      bool flag = false;
+      string a;
+      cin >> a;
+      for(Student &i : students){
+            if(i.id == a){
+                  cout << "| Enter student edit: ";
+                  string b;
+                  cin >> b;
+                  if(b == "name"){
+                        cout << "| Enter student new name: ";
+                        string c;
+                        cin >> c;
+                        i.name = c;
+                  }
+                  else if(b == "id"){
+                        cout << "| Enter student new ID: ";
+                        string c;
+                        cin >> c;
+                        i.id = c;
+                  }
+                  else if(b == "fstudy"){
+                        cout << "| Enter student new field of study: ";
+                        string c;
+                        cin >> c;
+                        i.fstud = c;
+                  }
+                  else if(b == "lessons"){
+                        for (lesson &j : i.lessons){
+                              cout << j.name << '\n';
+                        }
+                        string ac;
+                        cout << "| Enter lesson's name :" << '\n';
+                        cin >> ac;
+                        int n{0};
+                        for (lesson &j : i.lessons){
+                              if(j.name == ac){
+                                    cout << "| Enter lesson edit: ";
+                                    string b;
+                                    cin >> b;
+                                    if(b == "name"){
+                                          cout << "| Enter lesson new name: ";
+                                          string c;
+                                          cin >> c;
+                                          j.name = c;
+                                    }
+                                    else if(b == "vahed"){
+                                          cout << "| Enter student new vahed: ";
+                                          int c;
+                                          cin >> c;
+                                          j.vahed = c;
+                                    }
+                                    else if(b == "point"){
+                                          cout << "| Enter student new point: ";
+                                          int c;
+                                          cin >> c;
+                                          j.point = c;
+                                    }
+                                    else if(b == "delete"){
+                                          i.lessons.erase(i.lessons.begin() + n);
+                                    }
+                                    break;
+                              }
+                              n++;
+                        }
+                  }
+                  flag = true;
+            }
+      }
+      if(!flag){
+            cout << "| Student not found!";
+      }
 }

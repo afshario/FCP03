@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <typeinfo>
 using json = nlohmann::json;
 using namespace std;
 
@@ -36,3 +37,5 @@ int writeStudent();
 void bubbleSort();
 void karnameh();
 void initial();
+void deleteStudent();
+void editStudent();
