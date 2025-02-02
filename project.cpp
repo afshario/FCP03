@@ -2,40 +2,42 @@
 
 int main() {
       initial();
+      cout << "=====Creators: Afshari, Fahimi=====" << '\n';
       bool a = true;
       while(a){
             string request;
-            cout << "---------------------------------" << '\n';
-            cout << "| 1 - Create a student" << "\n";
-            cout << "| 2 - Show students with limits" << "\n";
-            cout << "| 3 - Show all students" << "\n";
-            cout << "| 4 - Write students in database" << "\n";
-            cout << "| 5 - Print student's report card" << "\n";
-            cout << "| 6 - Delete a student" << "\n" ;
-            cout << "| 7 - Edit student" << "\n" ;
-            cout << "| 8 - Exit" << '\n' << "---------------------------------" << "\n";
+            cout << "===================================" << '\n';
+            cout << "| 1 - Create a student            |" << '\n';
+            cout << "| 2 - Show students with limits   |" << '\n';
+            cout << "| 3 - Show all students           |" << '\n';
+            cout << "| 4 - Write students in database  |" << '\n';
+            cout << "| 5 - Print student's report card |" << '\n';
+            cout << "| 6 - Delete a student            |" << '\n';
+            cout << "| 7 - Edit student                |" << '\n';
+            cout << "| 8 - Exit                        |" << '\n';
+            cout << "===================================" << '\n';
             cout <<">>> " <<"Enter a function you need: ";
             cin >> request;
-
-            if(request == "1")
+            system("cls");
+            if (request == "1")
                   students.push_back(generateStudent());
-            else if(request == "2"){
+            else if (request == "2"){
                   bubbleSort();
                   showStudent();
             }
-            else if(request == "3"){
+            else if (request == "3"){
                   bubbleSort();
                   showStudentAll();
             }
-            else if(request == "4")
+            else if (request == "4")
                   writeStudent();
-            else if(request == "5")
+            else if (request == "5")
                   karnameh();
-            else if(request == "6")
+            else if (request == "6")
                   deleteStudent();
-            else if(request == "7")
+            else if (request == "7")
                   editStudent();
-            else if(request == "8")
+            else if (request == "8")
                   a = false;
             else
                   system ("cls");
@@ -47,32 +49,60 @@ int main() {
 Student generateStudent(){
       vector<lesson> lessons;
       string name , id , fstudy;
-      cout << "---------------------------------" << "\n"<< "| ";
-      cout << "| Enter student's name :" << '\n'<< "| ";
+      cout << "===================================" << "\n";
+      cout << "| Enter student's name :";
       cin >> name ;
-      cout << "| Enter student's id :" << '\n'<< "| ";
+      cout << "| Enter student's id :" ;
       cin >> id ;
-      cout << "| Enter student's field of study :" << '\n'<< "| ";
+      cout << "| Enter student's field of study :" ;
       cin >> fstudy;
       int n;
-      cout << "| How many lessons you want to add :" << '\n'<< "| ";
+      n_l:
+      cout << "| How many lessons you want to add :" ;
       cin >> n;
+      if (cin.fail()){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "| invalid data inputed! " << '\n';
+            goto n_l;
+      }
       for (int i=1 ; i<= n ; i++){
+            cout << "-----------------------------------" << endl;
             string name;
             float point;
             int vahed;
-            cout << "| Enter name of lesson :" << '\n' << "| ";
+            cout << "| Enter name of lesson :" ;
             cin >> name ;
-            cout << "| Enter vahed of lesson :" << '\n'<< "| ";
-            cin>> vahed ;
-            cout << "| Enter student's point :" << '\n'<< "| ";
+            vahed_l:
+            cout << "| Enter vahed of lesson :" ;
+            cin >> vahed ;
+            if (cin.fail()){
+                  cin.clear();
+                  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                  cout << "| invalid data inputed! " << '\n';
+                  goto vahed_l;
+            }
+            point_l:
+            cout << "| Enter student's point :" ;
             cin >> point;
+            if (cin.fail()){
+                  cin.clear();
+                  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                  cout << "| invalid data inputed! " << '\n';
+                  goto point_l;
+            }
+            if (point < 0 || point > 20){
+                  cout << "| invalid data inputed! " << '\n';
+                  goto point_l;
+            }
             lessons.push_back(lesson{name , vahed , point});
       }
+      system("cls");
+      cout << "| Student generated! " << '\n' ;
       return (Student{name , id , fstudy , lessons });
 }
 void showStudent(){
-      
+      cout << "===================================" << "\n";
       cout << "| Enter reshteh :";
       string a;
       int flag{0};
@@ -81,25 +111,27 @@ void showStudent(){
             Student i = students[j];
             if (i.fstud == a){
                   flag = 1;
-                  cout << "----------------------------------" << endl;
-                  cout << "| Name :" << i.name << endl<< "| ";
-                  cout << " ID :" << i.id << endl<< "| ";
-                  cout << " field of study :" << i.fstud << endl<< "| ";
-                  cout <<" GPA :" << i.gpaCal() << endl<< "| ";
-            } else {
-                  flag = false;
+                  cout << "-----------------------------------" << endl;
+                  cout << "| Name :" << i.name << endl;
+                  cout << "| ID :" << i.id << endl;
+                  cout << "| field of study :" << i.fstud << endl;
+                  cout << "| GPA :" << i.gpaCal() << endl;
             }
+      }
+      if (flag == 0){
+            system("cls");
+            cout << "| reshteh not found! "<< '\n';
       }
       
 };
 void showStudentAll(){
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
-                        cout << "----------------------------------" << endl;
-                        cout << "| Name :" << i.name << endl<< "| ";
-                        cout << " ID :" << i.id << endl<< "| ";
-                        cout << " field of study :" << i.fstud << endl<< "| ";
-                        cout <<" GPA :" << i.gpaCal() << endl<< "| ";
+                        cout << "-----------------------------------" << endl;
+                        cout << "| Name :" << i.name << endl;
+                        cout << "| ID :" << i.id << endl;
+                        cout << "| field of study :" << i.fstud << endl;
+                        cout <<"| GPA :" << i.gpaCal() << endl;
             }
 }
 int writeStudent(){
@@ -110,7 +142,7 @@ int writeStudent(){
       if (students.size() == 0){
             file.close();
       }
-      json newj = json::array();
+      json jarr = json::array();
       for (int j = 0 ; j < students.size() ; j++){
             json jsonData;
             Student a = students[j];
@@ -123,18 +155,19 @@ int writeStudent(){
                   jsonData["lessons"][i]["vahed"] = x.vahed;
                   jsonData["lessons"][i]["point"] = x.point;
             }
-            newj.push_back(jsonData);
+            jarr.push_back(jsonData);
 
       }
-      file << newj;
+      file << jarr;
       file.close();
+      system("cls");
       cout << "| students are written sucessfully" << '\n';
       return 0;
 }
 void bubbleSort() {
     for (int i = 0; i < students.size() - 1; i++) {
         for (int j = 0; j < students.size() - i - 1; j++) {
-            if (students[j].gpaCal() > students[j + 1].gpaCal()) {
+            if ((students[j].gpaCal() > students[j + 1].gpaCal()) && (!isnan(students[j].gpaCal())) && (!isnan(students[j+1].gpaCal()))) {
                 swap(students[j], students[j+1]);
             }
         }
@@ -150,21 +183,22 @@ void karnameh(){
       for (Student i : students){
             if ((i.name == name) && (i.id == id)){
                   flag = true;
-                  cout << "| Name :" << i.name << endl<< "| ";
-                  cout << "| ID :" << i.id << endl<< "| ";
-                  cout << "| Field of study :" << i.fstud << endl<< "| ";
-                  cout << "| GPA :"<< i.gpaCal()<< endl<< "| ";
-                   cout << "------ Lessons of " << i.name << "------:" << '\n';
+                  cout << "-----------------------------------" << endl;
+                  cout << "| Name :" << i.name << endl;
+                  cout << "| ID :" << i.id << endl;
+                  cout << "| Field of study :" << i.fstud << endl;
+                  cout << "| GPA :"<< i.gpaCal()<< endl;
+                   cout << "------------- Lessons ------------" << '\n';
                   for(lesson l : i.lessons){
-                        cout << "| Name of lesson :" << l.name << endl<< "| ";
-                        cout << "| Vahed :" << l.vahed << endl<< "| ";
-                        cout << "| Student's point :" << l.point << endl<< "| ";
-                        cout << "------------------------------" << '\n';
+                        cout << "| Name of lesson :" << l.name << endl;
+                        cout << "| Vahed :" << l.vahed << endl;
+                        cout << "| Student's point :" << l.point << endl;
                   }
                   break;
             }
       }
       if (!flag){
+            system("cls");
             cout << "| Student dosen't exists!" << '\n';
       }
 }
@@ -201,11 +235,13 @@ void deleteStudent(){
             if(students[i].id == a){
                   flag = true;
                   students.erase(students.begin() + i);
+                  system("cls");
                   cout << "| Student deleted sucessfully "<< '\n';
                   break;   
             }
       }
       if(!flag){
+            system("cls");
             cout << "| Student dosen't exist! "<< '\n';
       }
 }
@@ -225,6 +261,7 @@ void editStudent(){
                         string c;
                         cin >> c;
                         i.name = c;
+                        system("cls");
                         cout <<"| student name changed! "<< '\n';
                   }
                   else if(b == "id"){
@@ -232,6 +269,7 @@ void editStudent(){
                         string c;
                         cin >> c;
                         i.id = c;
+                        system("cls");
                         cout <<"| student ID changed! "<< '\n';
                   }
                   else if(b == "fstudy"){
@@ -239,6 +277,7 @@ void editStudent(){
                         string c;
                         cin >> c;
                         i.fstud = c;
+                        system("cls");
                         cout <<"| student field of study changed! "<< '\n';
                   }
                   else if(b == "lessons"){
@@ -261,25 +300,47 @@ void editStudent(){
                                           string c;
                                           cin >> c;
                                           j.name = c;
+                                          system("cls");
                                           cout <<'\n' <<"| lesson name changed! " << '\n';
                                     }
                                     else if(b == "vahed"){
+                                          vah_l:
                                           cout << "| Enter student new vahed: ";
                                           int c;
                                           cin >> c;
+                                          if (cin.fail()){
+                                                cin.clear();
+                                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                                cout << "| invalid data inputed! " << '\n';
+                                                goto vah_l;
+                                          }
                                           j.vahed = c;
+                                          system("cls");
                                           cout <<"| lesson vahed changed! "<< '\n';
                                     }
                                     else if(b == "point"){
+                                          p_l:
                                           cout << "| Enter student new point: ";
                                           int c;
                                           cin >> c;
+                                          if (cin.fail()){
+                                                cin.clear();
+                                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                                cout << "| invalid data inputed! " << '\n';
+                                                goto p_l;
+                                          }
+                                          if (c < 0 || c > 20){
+                                                goto p_l;
+                                                cout << "| invalid data inputed! " << '\n';
+                                          }
                                           j.point = c;
+                                          system("cls");
                                           cout <<"| student point changed! "<< '\n';
                                     }
                                     else if(b == "delete"){
                                           i.lessons.erase(i.lessons.begin() + n);
                                     } else {
+                                          system("cls");
                                           cout << "| Function not found!"<< '\n';
                                     }
                                     break;
@@ -287,15 +348,18 @@ void editStudent(){
                               n++;
                         } 
                         if(!flag1){
+                              system("cls");
                               cout << "| Lesson not found!"<< '\n';
                         }
                   } else {
+                        system("cls");
                         cout << "| Function not found!"<< '\n';
                   }
                   flag = true;
             }
       }
       if(!flag){
+            system("cls");
             cout << "| Student not found!"<< '\n';
       }
 }
