@@ -12,7 +12,8 @@ int main() {
             cout << "| 4 - Write students in database" << "\n";
             cout << "| 5 - Print student's report card" << "\n";
             cout << "| 6 - Delete a student" << "\n" ;
-            cout << "| 7 - Exit" << '\n' << "---------------------------------" << "\n";
+            cout << "| 7 - Edit student" << "\n" ;
+            cout << "| 8 - Exit" << '\n' << "---------------------------------" << "\n";
             cout <<">>> " <<"Enter a function you need: ";
             cin >> request;
 
@@ -153,8 +154,8 @@ void karnameh(){
                   cout << "| ID :" << i.id << endl<< "| ";
                   cout << "| Field of study :" << i.fstud << endl<< "| ";
                   cout << "| GPA :"<< i.gpaCal()<< endl<< "| ";
+                   cout << "------ Lessons of " << i.name << "------:" << '\n';
                   for(lesson l : i.lessons){
-                        cout << "------ Lessons of " << i.name << "------:" << '\n';
                         cout << "| Name of lesson :" << l.name << endl<< "| ";
                         cout << "| Vahed :" << l.vahed << endl<< "| ";
                         cout << "| Student's point :" << l.point << endl<< "| ";
@@ -211,11 +212,12 @@ void deleteStudent(){
 void editStudent(){
       cout << "| Enter student ID: ";
       bool flag = false;
+      bool flag1 = false;
       string a;
       cin >> a;
       for(Student &i : students){
             if(i.id == a){
-                  cout << "| Enter student edit: ";
+                  cout << "| Enter student edit (name , id , fstudy , lessons): ";
                   string b;
                   cin >> b;
                   if(b == "name"){
@@ -223,30 +225,35 @@ void editStudent(){
                         string c;
                         cin >> c;
                         i.name = c;
+                        cout <<"| student name changed! "<< '\n';
                   }
                   else if(b == "id"){
                         cout << "| Enter student new ID: ";
                         string c;
                         cin >> c;
                         i.id = c;
+                        cout <<"| student ID changed! "<< '\n';
                   }
                   else if(b == "fstudy"){
                         cout << "| Enter student new field of study: ";
                         string c;
                         cin >> c;
                         i.fstud = c;
+                        cout <<"| student field of study changed! "<< '\n';
                   }
                   else if(b == "lessons"){
+                        cout << "| student's lessons :" << '\n';
                         for (lesson &j : i.lessons){
-                              cout << j.name << '\n';
+                              cout <<"| - " <<j.name << '\n';
                         }
                         string ac;
-                        cout << "| Enter lesson's name :" << '\n';
+                        cout << "| Enter lesson's name :";
                         cin >> ac;
                         int n{0};
                         for (lesson &j : i.lessons){
                               if(j.name == ac){
-                                    cout << "| Enter lesson edit: ";
+                                    flag1 = true;
+                                    cout <<"| Enter lesson edit (name , point , vahed): ";
                                     string b;
                                     cin >> b;
                                     if(b == "name"){
@@ -254,31 +261,41 @@ void editStudent(){
                                           string c;
                                           cin >> c;
                                           j.name = c;
+                                          cout <<'\n' <<"| lesson name changed! " << '\n';
                                     }
                                     else if(b == "vahed"){
                                           cout << "| Enter student new vahed: ";
                                           int c;
                                           cin >> c;
                                           j.vahed = c;
+                                          cout <<"| lesson vahed changed! "<< '\n';
                                     }
                                     else if(b == "point"){
                                           cout << "| Enter student new point: ";
                                           int c;
                                           cin >> c;
                                           j.point = c;
+                                          cout <<"| student point changed! "<< '\n';
                                     }
                                     else if(b == "delete"){
                                           i.lessons.erase(i.lessons.begin() + n);
+                                    } else {
+                                          cout << "| Function not found!"<< '\n';
                                     }
                                     break;
                               }
                               n++;
+                        } 
+                        if(!flag1){
+                              cout << "| Lesson not found!"<< '\n';
                         }
+                  } else {
+                        cout << "| Function not found!"<< '\n';
                   }
                   flag = true;
             }
       }
       if(!flag){
-            cout << "| Student not found!";
+            cout << "| Student not found!"<< '\n';
       }
 }
