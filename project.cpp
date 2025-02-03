@@ -91,7 +91,7 @@ Student generateStudent(){
             vahed_l:
             cout << "| Enter credit of lesson :" ;
             cin >> vahed ;
-            if (cin.fail() || floor(vahed) != vahed){
+            if (cin.fail() || floor(vahed) != vahed || vahed < 0){
                   cin.clear();
                   cin.ignore(numeric_limits<streamsize>::max(), '\n');
                   cout << "| invalid data inputed! " << '\n';
@@ -384,7 +384,7 @@ void editStudent(){
                                           cout << "| Enter student new vahed: ";
                                           float c;
                                           cin >> c;
-                                          if (cin.fail() || floor(c) != c){
+                                          if (cin.fail() || floor(c) != c || c < 0){
                                                 cin.clear();
                                                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                                                 cout << "| invalid data inputed! " << '\n';
