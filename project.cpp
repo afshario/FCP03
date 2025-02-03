@@ -10,11 +10,10 @@ int main() {
             cout << "| 1 - Create a student            |" << '\n';
             cout << "| 2 - Show students with limits   |" << '\n';
             cout << "| 3 - Show all students           |" << '\n';
-            cout << "| 4 - Write students in database  |" << '\n';
-            cout << "| 5 - Print student's report card |" << '\n';
-            cout << "| 6 - Delete a student            |" << '\n';
-            cout << "| 7 - Edit student                |" << '\n';
-            cout << "| 8 - Exit                        |" << '\n';
+            cout << "| 4 - Print student's report card |" << '\n';
+            cout << "| 5 - Delete a student            |" << '\n';
+            cout << "| 6 - Edit student                |" << '\n';
+            cout << "| 7 - Exit                        |" << '\n';
             cout << "===================================" << '\n';
             cout <<">>> Enter a function you need: ";
             cin >> request;
@@ -30,15 +29,15 @@ int main() {
                   showStudentAll();
             }
             else if (request == "4")
-                  writeStudent();
-            else if (request == "5")
                   karnameh();
-            else if (request == "6")
+            else if (request == "5")
                   deleteStudent();
-            else if (request == "7")
+            else if (request == "6")
                   editStudent();
-            else if (request == "8")
+            else if (request == "7"){
+                  writeStudent();
                   a = false;
+            }
             else
                   system ("cls");
                       
