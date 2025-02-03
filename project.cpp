@@ -51,11 +51,13 @@ Student generateStudent(){
       string name , id , fstudy;
       cout << "===================================" << "\n";
       cout << "| Enter student's name :";
-      cin >> name ;
+      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      getline(cin , name);
       cout << "| Enter student's id :" ;
       cin >> id ;
       cout << "| Enter student's field of study :" ;
-      cin >> fstudy;
+      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      getline( cin , fstudy);
       int n;
       n_l:
       cout << "| How many lessons you want to add :" ;
@@ -70,13 +72,14 @@ Student generateStudent(){
             cout << "-----------------------------------" << endl;
             string name;
             float point;
-            int vahed;
+            float vahed;
             cout << "| Enter name of lesson :" ;
-            cin >> name ;
+            cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+            getline( cin , name);
             vahed_l:
-            cout << "| Enter vahed of lesson :" ;
+            cout << "| Enter credit of lesson :" ;
             cin >> vahed ;
-            if (cin.fail()){
+            if (cin.fail() || floor(vahed) != vahed){
                   cin.clear();
                   cin.ignore(numeric_limits<streamsize>::max(), '\n');
                   cout << "| invalid data inputed! " << '\n';
@@ -101,12 +104,16 @@ Student generateStudent(){
       cout << "| Student generated! " << '\n' ;
       return (Student{name , id , fstudy , lessons });
 }
-void showStudent(){
+int showStudent(){
       cout << "===================================" << "\n";
-      cout << "| Enter reshteh :";
+      cout << "| Enter field of study :";
       string a;
       int flag{0};
-      cin >> a;
+      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      getline(cin , a);
+      if (students.size() == 0){
+            return 1;
+      }
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
             if (i.fstud == a){
@@ -120,19 +127,23 @@ void showStudent(){
       }
       if (flag == 0){
             system("cls");
-            cout << "| reshteh not found! "<< '\n';
+            cout << "| field of study not found! "<< '\n';
       }
-      
+      return 0;
 };
-void showStudentAll(){
+int showStudentAll(){
+      if (students.size() == 0){
+            return 0;
+      }
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
                         cout << "-----------------------------------" << endl;
                         cout << "| Name :" << i.name << endl;
                         cout << "| ID :" << i.id << endl;
                         cout << "| field of study :" << i.fstud << endl;
-                        cout <<"| GPA :" << i.gpaCal() << endl;
-            }
+                        cout << "| GPA :" << i.gpaCal() << endl;
+      }
+      return 0;
 }
 int writeStudent(){
       if(students.size() == 0){
@@ -176,7 +187,8 @@ void bubbleSort() {
 void karnameh(){
       string name , id;
       cout << "| Enter student's name :";
-      cin >> name;
+      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      getline( cin , name);
       cout << "| Enter student's ID :";
       cin >> id;
       bool flag = false;
@@ -191,8 +203,9 @@ void karnameh(){
                    cout << "------------- Lessons ------------" << '\n';
                   for(lesson l : i.lessons){
                         cout << "| Name of lesson :" << l.name << endl;
-                        cout << "| Vahed :" << l.vahed << endl;
+                        cout << "| Credit :" << l.vahed << endl;
                         cout << "| Student's point :" << l.point << endl;
+                        cout << "-----------------------------------" << endl;
                   }
                   break;
             }
@@ -212,7 +225,7 @@ void initial(){
                   vector<lesson> lessons;
                   for (int j=0 ; j < jsonData[i]["lessons"].size(); j++){
                         string name = jsonData[i]["lessons"][j]["name"];
-                        int vahed = jsonData[i]["lessons"][j]["vahed"];
+                        float vahed = jsonData[i]["lessons"][j]["vahed"];
                         float point = jsonData[i]["lessons"][j]["point"];
                         lesson a{name ,vahed, point};
                         lessons.push_back(a);
@@ -253,13 +266,14 @@ void editStudent(){
       cin >> a;
       for(Student &i : students){
             if(i.id == a){
-                  cout << "| Enter student edit (name , id , fstudy , lessons): ";
+                  cout << "| Enter student edit (name , id , fstudy , lessons ,addlessons): ";
                   string b;
                   cin >> b;
                   if(b == "name"){
                         cout << "| Enter student new name: ";
                         string c;
-                        cin >> c;
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        getline( cin , c);
                         i.name = c;
                         system("cls");
                         cout <<"| student name changed! "<< '\n';
@@ -275,7 +289,8 @@ void editStudent(){
                   else if(b == "fstudy"){
                         cout << "| Enter student new field of study: ";
                         string c;
-                        cin >> c;
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        getline( cin , c);
                         i.fstud = c;
                         system("cls");
                         cout <<"| student field of study changed! "<< '\n';
@@ -287,18 +302,20 @@ void editStudent(){
                         }
                         string ac;
                         cout << "| Enter lesson's name :";
-                        cin >> ac;
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        getline( cin , ac);
                         int n{0};
                         for (lesson &j : i.lessons){
                               if(j.name == ac){
                                     flag1 = true;
-                                    cout <<"| Enter lesson edit (name , point , vahed): ";
+                                    cout <<"| Enter lesson edit (name , point , vahed , delete): ";
                                     string b;
                                     cin >> b;
                                     if(b == "name"){
                                           cout << "| Enter lesson new name: ";
                                           string c;
-                                          cin >> c;
+                                          cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                                          getline( cin , c);
                                           j.name = c;
                                           system("cls");
                                           cout <<'\n' <<"| lesson name changed! " << '\n';
@@ -306,9 +323,9 @@ void editStudent(){
                                     else if(b == "vahed"){
                                           vah_l:
                                           cout << "| Enter student new vahed: ";
-                                          int c;
+                                          float c;
                                           cin >> c;
-                                          if (cin.fail()){
+                                          if (cin.fail() || floor(c) != c){
                                                 cin.clear();
                                                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                                                 cout << "| invalid data inputed! " << '\n';
@@ -338,8 +355,11 @@ void editStudent(){
                                           cout <<"| student point changed! "<< '\n';
                                     }
                                     else if(b == "delete"){
+                                          system("cls");
                                           i.lessons.erase(i.lessons.begin() + n);
-                                    } else {
+                                          cout << "| Lesson deleted!"<< '\n';
+                                    }
+                                    else {
                                           system("cls");
                                           cout << "| Function not found!"<< '\n';
                                     }
@@ -351,6 +371,39 @@ void editStudent(){
                               system("cls");
                               cout << "| Lesson not found!"<< '\n';
                         }
+                  }
+                  else if(b == "add"){
+                        string name;
+                        float vahed;
+                        float point;
+                        cout << "| Enter lesson name:";
+                        cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+                        getline( cin , name);
+                        v_l:
+                        cout << "| Enter lesson credit:";
+                        cin >> vahed;
+                        if (cin.fail() || floor(vahed) != vahed){
+                              cin.clear();
+                              cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                              cout << "| invalid data inputed! " << '\n';
+                              goto v_l;
+                        }
+                        po_l:
+                        cout << "| Enter student point:";
+                        cin >> point;
+                        if (cin.fail()){
+                              cin.clear();
+                              cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                              cout << "| invalid data inputed! " << '\n';
+                              goto po_l;
+                        }
+                        if (point < 0 || point > 20){
+                              goto po_l;
+                              cout << "| invalid data inputed! " << '\n';
+                        }
+                        i.lessons.push_back(lesson{name , vahed , point});
+                        system("cls");
+                        cout << "| lesson added! " << '\n';
                   } else {
                         system("cls");
                         cout << "| Function not found!"<< '\n';

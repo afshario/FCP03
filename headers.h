@@ -10,7 +10,7 @@ using namespace std;
 struct lesson
 {
       string name;
-      int vahed;
+      float vahed;
       float point;
 };
 struct Student {
@@ -30,8 +30,8 @@ struct Student {
 };
 std::vector<Student> students;
 Student generateStudent();
-void showStudent();
-void showStudentAll();
+int showStudent();
+int showStudentAll();
 int writeStudent();
 void bubbleSort();
 void karnameh();
