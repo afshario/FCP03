@@ -5,6 +5,7 @@
 #include <fstream>
 #include <typeinfo>
 #include <cmath>
+#include <unordered_set>
 using json = nlohmann::json;
 using namespace std;
 struct lesson

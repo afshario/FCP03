@@ -16,7 +16,7 @@ int main() {
             cout << "| 7 - Edit student                |" << '\n';
             cout << "| 8 - Exit                        |" << '\n';
             cout << "===================================" << '\n';
-            cout <<">>> " <<"Enter a function you need: ";
+            cout <<">>> Enter a function you need: ";
             cin >> request;
             system("cls");
             if (request == "1")
@@ -51,10 +51,23 @@ Student generateStudent(){
       string name , id , fstudy;
       cout << "===================================" << "\n";
       cout << "| Enter student's name :";
-      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
       getline(cin , name);
+      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      i_l:
       cout << "| Enter student's id :" ;
       cin >> id ;
+      for(char c : id){
+            if ((c - '0' < 0) || (c - '0' > 9)){
+                  cout << "| ID can only contain numbers!" << '\n';
+                  goto i_l;
+            }
+      }
+      for (Student p : students){
+            if (p.id == id){
+                  cout << "| ID is used!" << '\n';
+                  goto i_l;
+            }
+      }
       cout << "| Enter student's field of study :" ;
       cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
       getline( cin , fstudy);
@@ -105,7 +118,15 @@ Student generateStudent(){
       return (Student{name , id , fstudy , lessons });
 }
 int showStudent(){
+      unordered_set <string> fields;
       cout << "===================================" << "\n";
+      cout << "| field of studies are exists :" << "\n";
+      for (Student i : students){
+            fields.insert(i.fstud);
+      }
+      for (string i : fields){
+            cout << "| -" << i << '\n';
+      }
       cout << "| Enter field of study :";
       string a;
       int flag{0};
@@ -114,6 +135,7 @@ int showStudent(){
       if (students.size() == 0){
             return 1;
       }
+      cout << "-------------Students--------------" << endl;
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
             if (i.fstud == a){
@@ -125,6 +147,7 @@ int showStudent(){
                   cout << "| GPA :" << i.gpaCal() << endl;
             }
       }
+      cout << "-------------^^^^^^^^--------------" << endl;
       if (flag == 0){
             system("cls");
             cout << "| field of study not found! "<< '\n';
@@ -135,6 +158,7 @@ int showStudentAll(){
       if (students.size() == 0){
             return 0;
       }
+      cout << "------------ Students -------------" << endl;
       for (int j = students.size()-1 ; j >= 0 ; j--){
             Student i = students[j];
                         cout << "-----------------------------------" << endl;
@@ -143,6 +167,7 @@ int showStudentAll(){
                         cout << "| field of study :" << i.fstud << endl;
                         cout << "| GPA :" << i.gpaCal() << endl;
       }
+      cout << "-------------^^^^^^^^^-------------" << endl;
       return 0;
 }
 int writeStudent(){
@@ -185,22 +210,30 @@ void bubbleSort() {
     }
 }
 void karnameh(){
-      string name , id;
-      cout << "| Enter student's name :";
-      cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-      getline( cin , name);
+      string id;
+      id_l:
       cout << "| Enter student's ID :";
       cin >> id;
+      for(char c : id){
+            if ((c - '0' < 0) || (c - '0' > 9)){
+                  cout << "| ID can only contain numbers!" << '\n';
+                  goto id_l;
+            }
+      }
       bool flag = false;
+      cout << "------------Report card------------" << endl;
       for (Student i : students){
-            if ((i.name == name) && (i.id == id)){
+            if (i.id == id){
                   flag = true;
                   cout << "-----------------------------------" << endl;
                   cout << "| Name :" << i.name << endl;
                   cout << "| ID :" << i.id << endl;
                   cout << "| Field of study :" << i.fstud << endl;
                   cout << "| GPA :"<< i.gpaCal()<< endl;
-                   cout << "------------- Lessons ------------" << '\n';
+                  cout << "------------- Lessons ------------" << '\n';
+                  if(i.lessons.size() == 0){
+                        cout << "| Student dosen't have lesson!" << '\n';
+                  }
                   for(lesson l : i.lessons){
                         cout << "| Name of lesson :" << l.name << endl;
                         cout << "| Credit :" << l.vahed << endl;
@@ -241,8 +274,15 @@ void initial(){
 }
 void deleteStudent(){
       string a;
+      a_l:
       cout << "| Enter student's ID: ";
       cin >> a;
+      for(char c : a){
+            if ((c - '0' < 0) || (c - '0' > 9)){
+                  cout << "| ID can only contain numbers!" << '\n';
+                  goto a_l;
+            }
+      }
       bool flag = false;
       for (int i =0 ; i <= students.size() ; i++){
             if(students[i].id == a){
@@ -259,14 +299,21 @@ void deleteStudent(){
       }
 }
 void editStudent(){
+      e_l:
       cout << "| Enter student ID: ";
       bool flag = false;
       bool flag1 = false;
       string a;
       cin >> a;
+      for(char c : a){
+            if ((c - '0' < 0) || (c - '0' > 9)){
+                  cout << "| ID can only contain numbers!" << '\n';
+                  goto e_l;
+            }
+      }
       for(Student &i : students){
             if(i.id == a){
-                  cout << "| Enter student edit (name , id , fstudy , lessons ,addlessons): ";
+                  cout << "| Enter student edit (name , id , fstudy , lessons ,add (for add new lessons)): ";
                   string b;
                   cin >> b;
                   if(b == "name"){
@@ -279,9 +326,22 @@ void editStudent(){
                         cout <<"| student name changed! "<< '\n';
                   }
                   else if(b == "id"){
+                        k_l:
                         cout << "| Enter student new ID: ";
                         string c;
                         cin >> c;
+                        for(char l : c){
+                              if ((l - '0' < 0) || (l - '0' > 9)){
+                                    cout << "| ID can only contain numbers!" << '\n';
+                                    goto k_l;
+                              }
+                        }
+                        for (Student p : students){
+                              if (p.id == c){
+                                    cout << "| ID is used!" << '\n';
+                                    goto k_l;
+                              }
+                        }
                         i.id = c;
                         system("cls");
                         cout <<"| student ID changed! "<< '\n';
@@ -303,7 +363,7 @@ void editStudent(){
                         string ac;
                         cout << "| Enter lesson's name :";
                         cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-                        getline( cin , ac);
+                        getline(cin , ac);
                         int n{0};
                         for (lesson &j : i.lessons){
                               if(j.name == ac){
@@ -347,8 +407,8 @@ void editStudent(){
                                                 goto p_l;
                                           }
                                           if (c < 0 || c > 20){
-                                                goto p_l;
                                                 cout << "| invalid data inputed! " << '\n';
+                                                goto p_l;
                                           }
                                           j.point = c;
                                           system("cls");
