@@ -54,6 +54,7 @@ Student generateStudent(){
       getline(cin, name);
       i_l:
       cout << "| Enter student's id :" ;
+      cin >> id;
       for(char c : id){
             if ((c - '0' < 0) || (c - '0' > 9)){
                   cout << "| ID can only contain numbers!" << '\n';
