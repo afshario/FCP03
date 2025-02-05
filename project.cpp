@@ -50,11 +50,9 @@ Student generateStudent(){
       string name , id , fstudy;
       cout << "===================================" << "\n";
       cout << "| Enter student's name :";
-      getline(cin , name);
       cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
       i_l:
       cout << "| Enter student's id :" ;
-      cin >> id ;
       for(char c : id){
             if ((c - '0' < 0) || (c - '0' > 9)){
                   cout << "| ID can only contain numbers!" << '\n';
@@ -69,7 +67,7 @@ Student generateStudent(){
       }
       cout << "| Enter student's field of study :" ;
       cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
-      getline( cin , fstudy);
+      getline(cin , fstudy);
       int n;
       n_l:
       cout << "| How many lessons you want to add :" ;
