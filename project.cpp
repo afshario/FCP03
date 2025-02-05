@@ -51,6 +51,7 @@ Student generateStudent(){
       cout << "===================================" << "\n";
       cout << "| Enter student's name :";
       cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
+      getline(cin, name);
       i_l:
       cout << "| Enter student's id :" ;
       for(char c : id){
