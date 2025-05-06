@@ -2,7 +2,7 @@
 
 int main() {
       initial();
-      cout << "=====Creators: Afshari, Fahimi=====" << '\n';
+      cout << "=====Creators: Afshari=====" << '\n';
       bool a = true;
       while(a){
             string request;

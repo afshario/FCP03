@@ -1,1 +1,1 @@
-[{"fstudy":"computer","id":"1234","lessons":[{"name":"mabani","point":20.0,"vahed":3.0},{"name":"riazi1","point":19.0,"vahed":2.0}],"name":"sample"}]
+[{"fstudy":"computer","id":"123","lessons":[{"name":"mabani","point":19.5,"vahed":4.0}],"name":"mohammad hossein"},{"fstudy":"math","id":"12345","lessons":[{"name":"riazi1","point":20.0,"vahed":3.0}],"name":"mohammad"}]
